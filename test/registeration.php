@@ -8,18 +8,19 @@
 </head>
 
 <body>
-    <form action="done.php" method="POST">
+    <form action="save.php" method="POST">
         <input type="text" name="first-name" placeholder="First Name" required><br><br>
         <input type="text" name="last-name" placeholder="Last Name" required><br><br>
-        <textarea name="address" id="" placeholder="Address" required></textarea><br><br>
-        <select name="" id="">
+        <textarea name="address" placeholder="Address" required></textarea><br><br>
+        <select name="country" required>
+            <option value="">Select Country</option>
             <option value="Egypt">Egypt</option>
             <option value="Saudi Arabia">Saudi Arabia</option>
             <option value="Tunis">Tunis</option>
         </select><br><br>
         <label>Gender</label>
-        <input type="radio" name="gender" value="male"> Male
-        <input type="radio" name="gender" value="female"> Female
+        <input type="radio" name="gender" value="male" required> Male
+        <input type="radio" name="gender" value="female" required> Female
         <br><br>
         <label>Skills</label>
         <input type="checkbox" name="skills[]" value="PHP"> PHP
@@ -37,7 +38,7 @@
         <input type="text" name="department" value="OpenSource" readonly>
         <br><br>
         <p>Sh68Sa</p>
-        <input type="text" name="captcha" placeholder="Insert the code above">
+        <input type="text" name="captcha" placeholder="Insert the code above" required>
         <br><br>
 
 
@@ -52,16 +53,32 @@
             if (skills.length == 0) {
                 alert("Please choose one skill at least");
                 e.preventDefault();
-                return;
+                return false;
+            }
+
+            let gender = document.querySelector('input[name="gender"]:checked');
+            if (!gender) {
+                alert("Please select your gender");
+                e.preventDefault();
+                return false;
+            }
+
+            let country = document.querySelector('select[name="country"]').value;
+            if (!country) {
+                alert("Please select your country");
+                e.preventDefault();
+                return false;
             }
 
             let captchaInput = document.getElementsByName('captcha')[0].value;
-            let originalCode = "Sh68Sa"; 
+            let originalCode = "Sh68Sa";
             if (captchaInput !== originalCode) {
                 alert("Please Enter the correct code");
                 e.preventDefault();
-                return;
+                return false;
             }
+
+            return true;
         }
     </script>
 </body>
