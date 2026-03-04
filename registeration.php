@@ -8,6 +8,13 @@
 </head>
 
 <body>
+    <?php if (isset($_GET['error'])): ?>
+        <div style="color: red; padding: 10px; margin: 10px 0; border: 1px solid red;">
+            Error: <?php echo htmlspecialchars($_GET['error']); ?>
+        </div>
+    <?php endif; ?>
+
+    <h2>User Registration</h2>
     <form action="save.php" method="POST">
         <input type="text" name="first-name" placeholder="First Name" required><br><br>
         <input type="text" name="last-name" placeholder="Last Name" required><br><br>

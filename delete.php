@@ -1,11 +1,25 @@
 <?php
 
-$id = $_GET["id"];
-$rows = file("users.txt");
+require_once 'config.php';
 
-unset($rows[$id]);
+if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
+    header("Location: list.php?error=Invalid user ID");
+    exit;
+}
 
-file_put_contents("users.txt", implode("", $rows));
+$id = (int)$_GET["id"];
 
-header("Location: list.php");
-exit;
+try {
+    $stmt = $pdo->prepare("DELETE FROM users WHERE id = :id");
+    $result = $stmt->execute([':id' => $id]);
+
+    if ($stmt->rowCount() > 0) {
+        header("Location: list.php?success=user_deleted");
+    } else {
+        header("Location: list.php?error=User not found");
+    }
+    exit;
+} catch (PDOException $e) {
+    header("Location: list.php?error=" . urlencode($e->getMessage()));
+    exit;
+}
