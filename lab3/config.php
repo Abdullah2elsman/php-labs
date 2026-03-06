@@ -2,7 +2,7 @@
 
 $host = 'localhost';
 $dbname = 'user_management';
-$username = 'root';
+$username = 'abdullah';
 $password = '123456';
 
 try {

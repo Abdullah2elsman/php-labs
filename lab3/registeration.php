@@ -8,7 +8,10 @@
 </head>
 
 <body>
-    <?php if (isset($_GET['error'])): ?>
+    <?php
+    require_once 'config.php';
+
+    if (isset($_GET['error'])): ?>
         <div style="color: red; padding: 10px; margin: 10px 0; border: 1px solid red;">
             Error: <?php echo htmlspecialchars($_GET['error']); ?>
         </div>
@@ -29,11 +32,21 @@
         <input type="radio" name="gender" value="male" required> Male
         <input type="radio" name="gender" value="female" required> Female
         <br><br>
-        <label>Skills</label>
-        <input type="checkbox" name="skills[]" value="PHP"> PHP
-        <input type="checkbox" name="skills[]" value="J2SE"> J2SE <br><br>
-        <label></label> <input type="checkbox" name="skills[]" value="MySQL" checked> MySQL
-        <input type="checkbox" name="skills[]" value="PostgreSQL"> PostgreSQL
+        <label>Skills</label><br>
+        <?php
+        try {
+            $stmt = $pdo->query("SELECT * FROM skills ORDER BY name");
+            $skills = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($skills as $key => $skill) {
+                $checked = ($key === 0) ? 'checked' : '';
+
+                echo "<input type='checkbox' name='skills[]' value='" . $skill['id'] . "' $checked> " . htmlspecialchars($skill['name']) . " ";
+            }
+        } catch (PDOException $e) {
+            echo "Error loading skills: " . $e->getMessage();
+        }
+        ?>
         <br><br>
         <label>Username</label>
         <input type="text" name="username" required>
