@@ -36,7 +36,23 @@ try {
     header("Location: list.php?success=user_added");
     exit;
 } catch (PDOException $e) {
-    $pdo->rollback();
+    if ($pdo->inTransaction()) {
+        $pdo->rollback();
+    }
+
+    $errorCode = $e->getCode();
+    $errorMessage = "Unexpected error, please try again later";
+
+    if ($errorCode == 23000) {
+        $errorMessage = "username is already used";
+    }
+
+    error_log("Registration Error [" . $errorCode . "]: " . $e->getMessage());
+
+    header("Location: registration.php?error=" . urlencode($errorMessage));
+    exit;
+
+} catch (Exception $e) {
     header("Location: registration.php?error=" . urlencode($e->getMessage()));
     exit;
 }

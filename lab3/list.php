@@ -33,10 +33,10 @@ try {
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo "<h2>User Management System</h2>";
-    echo "<a href='registeration.php' style='margin-bottom: 20px; display: inline-block; padding: 10px; background: #007cba; color: white; text-decoration: none;'>Add New User</a>";
+    echo "<a href='registration.php' style='margin-bottom: 20px; display: inline-block; padding: 10px; background: #007cba; color: white; text-decoration: none;'>Add New User</a>";
 
     if (empty($users)) {
-        echo "<p>No users found. <a href='registeration.php'>Add the first user</a></p>";
+        echo "<p>No users found. <a href='registration.php'>Add the first user</a></p>";
     } else {
         echo "<table border='1' style='border-collapse: collapse; width: 100%; margin-top: 20px;'>";
         echo "<tr style='background-color: #f2f2f2;'>
